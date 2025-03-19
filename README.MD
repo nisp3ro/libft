@@ -29,7 +29,7 @@ To use Libft in your project, include the header file and link the library:
 Compile your program with:
 
 ```sh
-gcc my_program.c -L. -lft -o my_program
+cc my_program.c -L. -lft -o my_program
 ```
 
 ## Functions
@@ -105,9 +105,58 @@ gcc my_program.c -L. -lft -o my_program
 ### **Extras**
 
 - `ft_isspace(int c)`: Checks if a character is whitespace.
+- `ft_trackalloc(size_t size)`: Allocates memory and tracks it to prevent leaks.
+- `ft_trackedfree(void *ptr)`: Frees memory while ensuring it was allocated through `ft_trackalloc`.
+- `ft_clearallocs(void)`: Frees all tracked allocations, useful for cleaning up before program termination.
+
+### **Notes**
+
+The `ft_isspace(int c)` function checks if a character is a whitespace character (`' '`, `\t`, `\n`, `\v`, `\f`, `\r`).
+
+The memory tracking functions (`ft_trackalloc`, `ft_trackedfree`, and `ft_clearallocs`) help manage dynamic memory and prevent leaks:
+- `ft_trackalloc` works like `malloc` but registers all allocations. 
+- `ft_trackedfree` ensures that only tracked memory is freed, preventing double free errors. 
+- `ft_clearallocs` is useful at the end of a program to release all remaining allocations, avoiding memory leaks.
+
+Example usage:
+```c
+// Allocate some memory blocks
+void *ptr1 = ft_trackalloc(32);
+void *ptr2 = ft_trackalloc(64);
+void *ptr3 = ft_trackalloc(128);
+
+// Check if allocation was successful
+// If any allocation fails, free all previously allocated blocks.
+if (!ptr1 || !ptr2 || !ptr3)
+{
+    ft_clearallocs();
+    return (1);
+}
+
+// Free one block correctly
+ft_trackedfree(ptr2);
+
+// Attempt to free an already freed pointer 
+// (should display a warning)
+ft_trackedfree(ptr2);
+
+// Attempt to free a pointer that was never allocated through ft_trackalloc
+// (should display a warning)
+void *fake_ptr = malloc(50);
+ft_trackedfree(fake_ptr);
+free(fake_ptr); // Manually free since it's not tracked
+
+// Allocate another block
+void *ptr4 = ft_trackalloc(256);
+// Overwrite it with another allocation (the previous one will still be tracked)
+ptr4 = ft_trackalloc(sizeof(char) * (42 + 1));
+
+// Free all remaining allocated memory, including overwritten pointers
+ft_clearallocs();
+```
+
+
 
 ## License
 
 This project is part of 42 School curriculum.
-
-

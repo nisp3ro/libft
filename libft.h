@@ -62,6 +62,15 @@ t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 						void (*del)(void *));
 
 // Extras
+typedef struct s_alloc
+{
+	void *ptr;            /**< Pointer to allocated memory */
+	struct s_alloc *next; /**< Pointer to the next allocation record */
+}					t_alloc;
+
 int					ft_isspace(int c);
+void				*ft_trackalloc(size_t size);
+void				ft_trackedfree(void *ptr);
+void				ft_clearallocs(void);
 
 #endif
