@@ -1,6 +1,7 @@
-# Libft
+# 📚 Libft 125/100
+First project of the 42's Cursus.
 
-Libft is a custom implementation of standard C library functions, commonly used in 42 School projects. It provides utility functions for string manipulation, memory management, character classification, and linked lists.
+The aim of this project is to code a C library regrouping usual functions that you'll be allowed to use in all your other projects.
 
 ## Installation & Compilation
 
