@@ -62,6 +62,13 @@ t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 						void (*del)(void *));
 
 // Extras
+typedef enum e_action
+{
+	MALLOC,
+	FREE,
+	CLEAR
+}					t_action;
+
 typedef struct s_alloc
 {
 	void *ptr;            /**< Pointer to allocated memory */
@@ -69,8 +76,10 @@ typedef struct s_alloc
 }					t_alloc;
 
 int					ft_isspace(int c);
+char				*ft_strcpy(char *dest, char *src);
 void				*ft_trackalloc(size_t size);
 void				ft_trackedfree(void *ptr);
 void				ft_clearallocs(void);
+void				*ft_tracked_alloc(t_action action, void *ptr, size_t size);
 
 #endif

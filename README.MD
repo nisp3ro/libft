@@ -106,20 +106,34 @@ cc my_program.c -L. -lft -o my_program
 ### **Extras**
 
 - `ft_isspace(int c)`: Checks if a character is whitespace.
+- `ft_strcpy(char *dest, char *src)`: Copies a null-terminated string from source to destination.
+- `ft_strcmp(const char *s1, const char *s2)`: Compares two null-terminated strings and returns an integer based on their lexicographical order.
 - `ft_trackalloc(size_t size)`: Allocates memory and tracks it to prevent leaks.
 - `ft_trackedfree(void *ptr)`: Frees memory while ensuring it was allocated through `ft_trackalloc`.
 - `ft_clearallocs(void)`: Frees all tracked allocations, useful for cleaning up before program termination.
+- `ft_tracked_alloc(t_action action, void *ptr, size_t size)`: Performs a tracked memory operation based on the given action (MALLOC, FREE, or CLEAR).
 
 ### **Notes**
 
-The `ft_isspace(int c)` function checks if a character is a whitespace character (`' '`, `\t`, `\n`, `\v`, `\f`, `\r`).
+- The `ft_isspace(int c)` function checks if a character is a whitespace character (`' '`, `\t`, `\n`, `\v`, `\f`, `\r`).
 
-The memory tracking functions (`ft_trackalloc`, `ft_trackedfree`, and `ft_clearallocs`) help manage dynamic memory and prevent leaks:
-- `ft_trackalloc` works like `malloc` but registers all allocations. 
-- `ft_trackedfree` ensures that only tracked memory is freed, preventing double free errors. 
-- `ft_clearallocs` is useful at the end of a program to release all remaining allocations, avoiding memory leaks.
+- The `ft_strcpy(char *dest, char *src)` copies a null-terminated string from the source to the destination buffer. It is assumed that the destination has enough space to hold the source string.
 
-Example usage:
+- The `ft_strcmp(const char *s1, const char *s2)` function compares two null-terminated strings character by character. It returns an integer indicating the lexicographical difference between the strings. **Note:** The function does not perform NULL checks; it is assumed that both `s1` and `s2` are valid, null-terminated strings.
+
+- The memory tracking functions (`ft_trackalloc`, `ft_trackedfree`, and `ft_clearallocs`) help manage dynamic memory and prevent leaks:
+  - **ft_trackalloc** works like `malloc` but registers all allocations.
+  - **ft_trackedfree** ensures that only tracked memory is freed, preventing double free errors.
+  - **ft_clearallocs** is useful at the end of a program to release all remaining allocations, avoiding memory leaks.
+- `ft_tracked_alloc` provides a unified interface for memory operations. Depending on the provided action (`MALLOC`, `FREE`, or `CLEAR`), it:
+  - Allocates and registers memory (using `ft_trackalloc`) when the action is `MALLOC`.
+  - Frees memory (using `ft_trackedfree`) when the action is `FREE`.
+  - Clears all tracked allocations (using `ft_clearallocs`) when the action is `CLEAR`.
+
+
+<details>
+<summary>Example usage of tracking functions:</summary>
+
 ```c
 // Allocate some memory blocks
 void *ptr1 = ft_trackalloc(32);
@@ -156,7 +170,47 @@ ptr4 = ft_trackalloc(sizeof(char) * (42 + 1));
 ft_clearallocs();
 ```
 
+</details>
+<details>
+<summary>Same example with ft_tracked_alloc:</summary>
 
+
+```c
+// Allocate some memory blocks using the new interface
+void *ptr1 = ft_tracked_alloc(MALLOC, NULL, 32);
+void *ptr2 = ft_tracked_alloc(MALLOC, NULL, 64);
+void *ptr3 = ft_tracked_alloc(MALLOC, NULL, 128);
+
+// Check if allocation was successful
+// If any allocation fails, free all previously allocated blocks.
+if (!ptr1 || !ptr2 || !ptr3)
+{
+    ft_tracked_alloc(CLEAR, NULL, 0);
+    return (1);
+}
+
+// Free one block correctly
+ft_tracked_alloc(FREE, ptr2, 0);
+
+// Attempt to free an already freed pointer 
+// (should display a warning)
+ft_tracked_alloc(FREE, ptr2, 0);
+
+// Attempt to free a pointer that was never allocated through ft_trackalloc
+// (should display a warning)
+void *fake_ptr = malloc(50);
+ft_tracked_alloc(FREE, fake_ptr, 0);
+free(fake_ptr); // Manually free since it's not tracked
+
+// Allocate another block
+void *ptr4 = ft_tracked_alloc(MALLOC, NULL, 256);
+// Overwrite it with another allocation (the previous one will still be tracked)
+ptr4 = ft_tracked_alloc(MALLOC, NULL, sizeof(char) * (42 + 1));
+
+// Free all remaining allocated memory, including overwritten pointers
+ft_tracked_alloc(CLEAR, NULL, 0);
+```
+</details>
 
 ## License
 
