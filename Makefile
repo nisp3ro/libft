@@ -1,8 +1,8 @@
 ############################################################################################################
-# Minishell Variables
+# Variables
 NAME		=		libft.a
 
-INCLUDE = libft.h
+INCLUDE		=		libft.h
 
 SRCS		=		ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c ft_isprint.c ft_strlen.c\
 					ft_memset.c ft_bzero.c ft_memcpy.c ft_memmove.c ft_strlcpy.c ft_strlcat.c ft_toupper.c\
@@ -14,7 +14,7 @@ SRCS		=		ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c ft_isprint.c ft_str
 BONUSSRC =			ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c\
 					ft_lstadd_back.c ft_lstdelone.c ft_lstclear.c ft_lstiter.c ft_lstmap.c
 
-EXTRASRC =			ft_isspace.c ft_strcpy.c ft_tracked_alloc.c ft_tracked_alloc_caller.c
+EXTRASRC =			ft_isspace.c ft_strcpy.c ft_split_charset.c ft_tracked_alloc.c ft_tracked_alloc_caller.c
 
 # Objects
 OBJ_DIR		=		./obj
@@ -40,7 +40,7 @@ LILA		=		\033[0;35m
 NC			=		\033[0m # No color
 
 ############################################################################################################
-# Minishell Rules
+# Rules
 
 all: ascii_art
 

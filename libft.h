@@ -77,6 +77,7 @@ typedef struct s_alloc
 
 int					ft_isspace(int c);
 char				*ft_strcpy(char *dest, char *src);
+char				**ft_split_charset(char const *str, char const *charset);
 void				*ft_trackalloc(size_t size);
 void				ft_trackedfree(void *ptr);
 void				ft_clearallocs(void);
