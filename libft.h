@@ -21,6 +21,7 @@ int					ft_toupper(int ch);
 int					ft_tolower(int ch);
 char				*ft_strchr(const char *str, int tofind);
 char				*ft_strrchr(const char *str, int tofind);
+int					ft_strcmp(char *s1, char *s2);
 int					ft_strncmp(const char *str1, const char *str2, size_t n);
 void				*ft_memchr(const void *str, int c, size_t n);
 void				*ft_memmove(void *dest, const void *src, size_t n);
@@ -77,6 +78,7 @@ typedef struct s_alloc
 
 int					ft_isspace(int c);
 char				*ft_strcpy(char *dest, char *src);
+char				*ft_strcat(char *dest, char *src);
 char				**ft_split_charset(char const *str, char const *charset);
 void				*ft_trackalloc(size_t size);
 void				ft_trackedfree(void *ptr);

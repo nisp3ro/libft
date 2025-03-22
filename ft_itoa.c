@@ -1,5 +1,4 @@
 #include "libft.h"
-#include <stdlib.h>
 
 /**
  * @brief Computes the number of digits in an unsigned integer.

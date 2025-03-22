@@ -109,6 +109,7 @@ cc my_program.c -L. -lft -o my_program
 - `ft_isspace(int c)`: Checks if a character is whitespace.
 - `ft_strcpy(char *dest, char *src)`: Copies a null-terminated string from source to destination.
 - `ft_strcmp(const char *s1, const char *s2)`: Compares two null-terminated strings and returns an integer based on their lexicographical order.
+- `ft_strcat(char *dest, char *src)`: Concatenates the source string to the end of the destination string.
 - `ft_split_charset(char const *str, char const *charset)`: Splits a string into an array of substrings using any character from charset as a separator.
 - `ft_trackalloc(size_t size)`: Allocates memory and tracks it to prevent leaks.
 - `ft_trackedfree(void *ptr)`: Frees memory while ensuring it was allocated through `ft_trackalloc`.
@@ -122,6 +123,8 @@ cc my_program.c -L. -lft -o my_program
 - The `ft_strcpy(char *dest, char *src)` copies a null-terminated string from the source to the destination buffer. It is assumed that the destination has enough space to hold the source string.
 
 - The `ft_strcmp(const char *s1, const char *s2)` function compares two null-terminated strings character by character. It returns an integer indicating the lexicographical difference between the strings. **Note:** The function does not perform NULL checks; it is assumed that both `s1` and `s2` are valid, null-terminated strings.
+
+- The `ft_strcat(char dest, char src)` function appends the string pointed to by src to the end of the string pointed to by dest. The destination string must have enough allocated space to accommodate the result. If dest is NULL, the function returns NULL. This function is provided as an extra utility and is useful for string concatenation tasks.
 
 - The `ft_split_charset` function splits a string into an array of substrings by using any character found in the provided charset as a separator. It is similar in functionality to the single-delimiter split but has been adapted to work with multiple separator characters. This function was recovered from the "piscine" and integrated into the library as a useful tool during the Cursus.
 
